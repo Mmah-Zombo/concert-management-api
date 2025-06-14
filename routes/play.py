@@ -29,7 +29,10 @@ def get_play(play_id: int, db: Session = Depends(get_db), current_user: User = D
 
 @router.put("/{play_id}", response_model=PlayOut)
 def update_play(play_id: int, play: PlayCreate, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
-    return play_crud.update(db, play_id, play)
+    play = play_crud.update(db, play_id, play)
+    if not play:
+        raise HTTPException(status_code=404, detail="Play Not Found")
+    return play
 
 
 @router.delete("/{play_id}")

@@ -24,8 +24,8 @@ def create(db: Session, play: PlayCreate):
 
 def update(db: Session, play_id: int, play: PlayCreate):
     db_play = get_by_id(db, play_id)
-    db_play.updated_at = datetime.utcnow()
     if db_play:
+        db_play.updated_at = datetime.utcnow()
         for key, value in play.dict().items():
             setattr(db_play, key, value)
         db.commit()
