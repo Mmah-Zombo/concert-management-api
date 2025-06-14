@@ -15,11 +15,7 @@ app = FastAPI(
 # Include all route modules
 app.include_router(auth.router)
 app.include_router(play.router)
-# app.include_router(actor.router)
-# app.include_router(director.rouster)
-# app.include_router(ticket.router)
-# app.include_router(customer.router)
-# app.include_router(showtime.router)
+app.include_router(actor.router)
 
 
 @app.get("/")
