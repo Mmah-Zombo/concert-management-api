@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 from models.play import Play
 from schemas.play import PlayCreate
+from datetime import datetime
 
 
 def get_all(db: Session):
@@ -13,6 +14,8 @@ def get_by_id(db: Session, play_id: int):
 
 def create(db: Session, play: PlayCreate):
     db_play = Play(**play.dict())
+    db_play.created_at = datetime.utcnow()
+    db_play.updated_at = datetime.utcnow()
     db.add(db_play)
     db.commit()
     db.refresh(db_play)
@@ -21,6 +24,7 @@ def create(db: Session, play: PlayCreate):
 
 def update(db: Session, play_id: int, play: PlayCreate):
     db_play = get_by_id(db, play_id)
+    db_play.updated_at = datetime.utcnow()
     if db_play:
         for key, value in play.dict().items():
             setattr(db_play, key, value)
