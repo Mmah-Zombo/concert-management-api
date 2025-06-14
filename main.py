@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from database import engine, Base
-from routes import play, actor, director, ticket, customer, showtime
+from routes import auth, play, actor, director, ticket, customer, showtime
 
 # Create all database tables
 Base.metadata.create_all(bind=engine)
@@ -13,6 +13,7 @@ app = FastAPI(
 )
 
 # Include all route modules
+app.include_router(auth.router)
 app.include_router(play.router)
 # app.include_router(actor.router)
 # app.include_router(director.rouster)

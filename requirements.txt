@@ -5,3 +5,6 @@ dotenv
 psycopg2-binary
 pydantic
 pyjwt
+jose
+passlib[bcrypt]
+python-jose[cryptography]
