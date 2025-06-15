@@ -40,4 +40,4 @@ def delete_play(play_id: int, db: Session = Depends(get_db), current_user: User 
     play = play_crud.delete(db, play_id)
     if not play:
         raise HTTPException(status_code=404, detail="Play not found")
-    return play
+    return {"message": f"Showtime with id: {play_id} deleted"}

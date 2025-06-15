@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, String, DateTime
+from sqlalchemy.orm import relationship
 from database import Base
 
 
@@ -12,3 +13,11 @@ class Play(Base):
     synopsis = Column(String)
     created_at = Column(DateTime, nullable=False)
     updated_at = Column(DateTime, nullable=False)
+
+    # One-to-Many: A Play has many ShowTimes
+    showtimes = relationship(
+        "Showtime",
+        back_populates="play",
+        cascade="all, delete-orphan",
+        passive_deletes=True  # <== Important
+    )
