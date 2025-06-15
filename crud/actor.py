@@ -5,7 +5,7 @@ from datetime import datetime
 
 
 def get_all(db: Session):
-    return db.query(Actor).all()
+    return db.query(Actor).order_by(Actor.id.asc()).all()
 
 
 def get_by_id(actor_id: int, db: Session):
@@ -25,7 +25,7 @@ def create(actor: ActorRequestBody, db: Session):
 def update(actor_id: int, actor: ActorRequestBody, db: Session):
     db_actor = get_by_id(actor_id, db)
     if db_actor:
-        for key, value in actor.dict().items():
+        for key, value in actor.dict(exclude_unset=True).items():
             setattr(db_actor, key, value)
         db.commit()
         db.refresh(db_actor)

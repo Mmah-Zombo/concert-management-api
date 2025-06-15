@@ -5,7 +5,7 @@ from datetime import datetime
 
 
 def get_all(db: Session):
-    return db.query(Play).all()
+    return db.query(Play).order_by(Play.id.asc()).all()
 
 
 def get_by_id(db: Session, play_id: int):
@@ -26,7 +26,7 @@ def update(db: Session, play_id: int, play: PlayCreate):
     db_play = get_by_id(db, play_id)
     if db_play:
         db_play.updated_at = datetime.utcnow()
-        for key, value in play.dict().items():
+        for key, value in play.dict(exclude_unset=True).items():
             setattr(db_play, key, value)
         db.commit()
         db.refresh(db_play)
