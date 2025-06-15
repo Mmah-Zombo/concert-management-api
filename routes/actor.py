@@ -22,7 +22,7 @@ def create_actor(actor: ActorRequestBody, db: Session = Depends(get_db), current
 
 
 @router.get("/{actor_id}", response_model=ActorResponse)
-def get_actor(actor_id: int, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
+def get_actor(actor_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     actor = actor_crud.get_by_id(actor_id, db)
     if not actor:
         raise HTTPException(status_code=404, detail="Actor Not Found")
