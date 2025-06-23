@@ -25,7 +25,7 @@ def create_ticket(ticket: TicketRequestBody, db: Session = Depends(get_db), curr
         raise HTTPException(status_code=404, detail=f"Showtime With id: {ticket.showtime_id} Not Found")
 
     customer = get_customer(ticket.customer_id, db)
-    if not showtime:
+    if not customer:
         raise HTTPException(status_code=404, detail=f"Customer With id: {ticket.customer_id} Not Found")
 
     return ticket_crud.create(ticket, db)
@@ -46,7 +46,7 @@ def update_ticket(ticket_id: int, ticket: TicketRequestBody, db: Session = Depen
         raise HTTPException(status_code=404, detail=f"Showtime With id: {ticket.showtime_id} Not Found")
 
     customer = get_customer(ticket.customer_id, db)
-    if not showtime:
+    if not customer:
         raise HTTPException(status_code=404, detail=f"Customer With id: {ticket.customer_id} Not Found")
 
     ticket = ticket_crud.update(ticket_id, ticket, db)
