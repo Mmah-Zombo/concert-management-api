@@ -20,6 +20,8 @@ app.include_router(director.router)
 app.include_router(customer.router)
 app.include_router(showtime.router)
 
+app.include_router(ticket.router)
+
 
 @app.get("/")
 def root():
