@@ -14,3 +14,4 @@ class Showtime(Base):
 
     # Many-to-One: ShowTime belongs to one Play
     play = relationship("Play", back_populates="showtimes")
+    tickets = relationship("Ticket", back_populates="showtime", cascade="all, delete-orphan", passive_deletes=True)

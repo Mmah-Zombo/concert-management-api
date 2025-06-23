@@ -1,4 +1,5 @@
 from sqlalchemy import Column, String, Integer, DateTime
+from sqlalchemy.orm import relationship
 from database import Base
 
 
@@ -10,3 +11,5 @@ class Customer(Base):
     telephone_no = Column(String, nullable=False)
     created_at = Column(DateTime, nullable=False)
     updated_at = Column(DateTime, nullable=False)
+
+    tickets = relationship("Ticket", back_populates="customer", cascade="all, delete-orphan", passive_deletes=True)
