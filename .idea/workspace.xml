@@ -5,9 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c7968422-2661-4cdb-af1e-d1588553dd04" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/concert_management_api.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/concert_management_api.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/ticket.py" beforeDir="false" afterPath="$PROJECT_DIR$/routes/ticket.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/actor.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/actor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/director.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/director.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/play.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/play.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,7 +43,7 @@
   &quot;associatedIndex&quot;: 0
 }</component>
   <component name="ProjectId" id="2yTmF3xmw4GwlgGHtUZ4nLUIprV" />
-  <component name="ProjectLevelVcsManager">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
@@ -107,6 +110,11 @@
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/models/ticket.py</url>
           <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/schemas/actor.py</url>
+          <line>6</line>
+          <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

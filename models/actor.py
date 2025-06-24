@@ -1,5 +1,7 @@
 from sqlalchemy import Column, Integer, String, DateTime
 from database import Base
+from sqlalchemy.orm import relationship
+from models.play import play_actors
 
 
 class Actor(Base):
@@ -11,3 +13,5 @@ class Actor(Base):
     date_of_birth = Column(DateTime, nullable=False)
     created_at = Column(DateTime, nullable=False)
     updated_at = Column(DateTime, nullable=False)
+
+    plays = relationship("Play", secondary=play_actors, back_populates="actors")

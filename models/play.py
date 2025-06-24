@@ -1,6 +1,21 @@
-from sqlalchemy import Column, Integer, String, DateTime
+from sqlalchemy import Table, Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 from database import Base
+
+# Association tables
+play_directors = Table(
+    "play_directors",
+    Base.metadata,
+    Column("play_id", Integer, ForeignKey("plays.id")),
+    Column("director_id", Integer, ForeignKey("directors.id")),
+)
+
+play_actors = Table(
+    "play_actors",
+    Base.metadata,
+    Column("play_id", Integer, ForeignKey("plays.id")),
+    Column("actor_id", Integer, ForeignKey("actors.id")),
+)
 
 
 class Play(Base):
@@ -21,3 +36,6 @@ class Play(Base):
         cascade="all, delete-orphan",
         passive_deletes=True  # <== Important
     )
+
+    directors = relationship("Director", secondary=play_directors, back_populates="plays")
+    actors = relationship("Actor", secondary=play_actors, back_populates="plays")
