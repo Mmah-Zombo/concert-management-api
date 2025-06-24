@@ -1,5 +1,10 @@
 from pydantic import BaseModel
 from datetime import datetime
+from typing import List
+
+
+class ActorIDs(BaseModel):
+    actor_ids: List[int]
 
 
 class ActorRequestBody(BaseModel):

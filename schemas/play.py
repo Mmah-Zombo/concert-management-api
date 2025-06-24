@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from datetime import datetime
+from typing import List
 
 
 class PlayBase(BaseModel):
@@ -24,3 +25,16 @@ class PlayOut(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class ActorSummary(BaseModel):
+    id: int
+    name: str
+
+    class Config:
+        orm_mode = True
+
+
+class PlayActorAddResponse(BaseModel):
+    play_title: str
+    added_actors: List[ActorSummary]

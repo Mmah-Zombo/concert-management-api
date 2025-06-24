@@ -1,7 +1,10 @@
 from sqlalchemy.orm import Session
 from models.play import Play
-from schemas.play import PlayCreate
+from models.actor import Actor
+from schemas.play import PlayCreate, PlayOut
+from schemas.actor import ActorIDs
 from datetime import datetime
+from typing import List
 
 
 def get_all(db: Session):
@@ -39,3 +42,18 @@ def delete(db: Session, play_id: int):
         db.delete(db_play)
         db.commit()
     return db_play
+
+
+def get_actors(db: Session, actor_ids: ActorIDs):
+    return db.query(Actor).filter(Actor.id.in_(actor_ids.actor_ids)).all()
+
+
+def add_actors(db: Session, play: PlayOut, actors: List[Actor]):
+    existing_ids = {actor.id for actor in play.actors}
+    new_actors = [actor for actor in actors if actor.id not in existing_ids]
+
+    play.actors.extend(new_actors)
+    db.commit()
+    db.refresh(play)
+
+    return new_actors
