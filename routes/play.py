@@ -191,6 +191,7 @@ def get_showtimes_for_play(play_id: int, db: Session = Depends(get_db), current_
 
     return play.showtimes
 
+
 @router.delete("/{play_id}/showtimes/{showtime_id}")
 def remove_showtime_from_play(play_id: int, showtime_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     play = play_crud.get_by_id(db, play_id)

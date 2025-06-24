@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from database import engine, Base
-from routes import auth, play, actor, director, ticket, customer, showtime
+from routes import auth, play, actor, director, ticket, customer, showtime, filter_actors, filter_directors, filter_plays, filter_showtimes
 
 # Create all database tables
 Base.metadata.create_all(bind=engine)
@@ -19,8 +19,11 @@ app.include_router(actor.router)
 app.include_router(director.router)
 app.include_router(customer.router)
 app.include_router(showtime.router)
-
 app.include_router(ticket.router)
+app.include_router(filter_actors.router)
+app.include_router(filter_directors.router)
+app.include_router(filter_plays.router)
+app.include_router(filter_showtimes.router)
 
 
 @app.get("/")

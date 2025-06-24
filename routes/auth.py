@@ -5,7 +5,8 @@ from schemas.user import UserCreate, UserOut, UserExit, Token
 from models.user import User
 from utils.auth import hash_password, verify_password, create_access_token
 from datetime import datetime
-from dependencies.auth import  get_current_user
+from dependencies.auth import get_current_user
+from fastapi.responses import JSONResponse
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
 
@@ -44,7 +45,15 @@ def login(user: UserCreate, db: Session = Depends(get_db)):
 
 @router.post("/logout", response_model=UserExit)
 def logout(user: User = Depends(get_current_user)):
-    return user
+    response = JSONResponse({
+        "message": "Logged out successfully",
+        "user_id": user.id
+    })
+
+    # Instruct the browser to clear the cookie if token was stored as HttpOnly cookie
+    response.delete_cookie("access_token")
+
+    return response
 
 
 @router.post("/delete", response_model=UserExit)
