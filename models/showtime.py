@@ -7,7 +7,7 @@ class Showtime(Base):
     __tablename__ = "showtimes"
 
     id = Column(Integer, primary_key=True, index=True)
-    date_time = Column(DateTime, nullable=False)
+    date_time = Column(DateTime, nullable=False, unique=True)
     play_id = Column(Integer, ForeignKey("plays.id", ondelete="CASCADE"), nullable=False)
     created_at = Column(DateTime, nullable=False)
     updated_at = Column(DateTime, nullable=False)

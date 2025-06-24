@@ -12,6 +12,10 @@ def get_by_id(showtime_id: int, db: Session):
     return db.query(Showtime).filter(Showtime.id == showtime_id).first()
 
 
+def get_by_datetime(date_time: datetime, db: Session):
+    return db.query(Showtime).filter(Showtime.date_time == date_time).first()
+
+
 def create(showtime: ShowtimeRequestBody, db: Session):
     db_showtime = Showtime(**showtime.dict())
     db_showtime.created_at = datetime.utcnow()

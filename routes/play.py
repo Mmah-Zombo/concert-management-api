@@ -1,12 +1,15 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from database import get_db
-from schemas.play import PlayCreate, PlayOut, PlayActorAddResponse, ActorSummary, PlayActorRemoveResponse
+from schemas.play import (PlayCreate, PlayOut, PlayActorAddResponse, ActorSummary, ShowtimeResponse,
+                          CreateShowtimeRequest)
 from schemas.actor import ActorIDs
-from schemas.director import DirectorIDs, DirectorSummary, PlayDirectorAddResponse, PlayDirectorRemoveResponse
+from schemas.director import DirectorIDs, DirectorSummary, PlayDirectorAddResponse
+from schemas.showtime import ShowtimeRequestBody
 from crud import play as play_crud
 from crud import director as director_crud
 from crud import actor as actor_crud
+from crud import showtime as showtime_crud
 from dependencies.auth import get_current_user
 from models.user import User
 from typing import List
@@ -155,3 +158,55 @@ def remove_director_from_play(play_id: int, director_id: int, db: Session = Depe
     db.commit()
 
     return {"message": f"Director with id: {director_id} deleted from {play.title}"}
+
+
+@router.post("/{play_id}/showtimes", response_model=ShowtimeResponse)
+def assign_showtime_to_play(play_id: int, showtime_data: CreateShowtimeRequest, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    play = play_crud.get_by_id(db, play_id)
+    if not play:
+        raise HTTPException(status_code=404, detail="Play not found")
+
+    # Check if any showtime already uses this date_time
+    existing_showtime = showtime_crud.get_by_datetime(showtime_data.date_time, db)
+    if existing_showtime:
+        raise HTTPException(status_code=400, detail="This showtime is already assigned to another play")
+
+    # Build full object
+    showtime_body = ShowtimeRequestBody(
+        play_id=play_id,
+        date_time=showtime_data.date_time
+    )
+
+    # Create showtime (this function should add & commit)
+    new_showtime = showtime_crud.create(showtime_body, db)
+
+    return new_showtime
+
+
+@router.get("/{play_id}/showtimes", response_model=List[ShowtimeResponse])
+def get_showtimes_for_play(play_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    play = play_crud.get_by_id(db, play_id)
+    if not play:
+        raise HTTPException(status_code=404, detail="Play not found")
+
+    return play.showtimes
+
+@router.delete("/{play_id}/showtimes/{showtime_id}")
+def remove_showtime_from_play(play_id: int, showtime_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    play = play_crud.get_by_id(db, play_id)
+    if not play:
+        raise HTTPException(status_code=404, detail="Play not found")
+
+    showtime = showtime_crud.get_by_id(showtime_id, db)
+
+    if not showtime:
+        raise HTTPException(status_code=404, detail=f"Showtime with id: {showtime_id} not found")
+
+    play_showtime = showtime.play_id
+    if play_showtime != play_id:
+        raise HTTPException(status_code=400, detail=f"Showtime with id: {showtime_id} not associated with this play")
+
+    db.delete(showtime)
+    db.commit()
+
+    return {"message": f"Showtime with id: {showtime_id} deleted for {play.title}"}

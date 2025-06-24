@@ -43,3 +43,16 @@ class PlayActorAddResponse(BaseModel):
 class PlayActorRemoveResponse(BaseModel):
     play_title: str
     removed_actors: List[ActorSummary]
+
+
+class CreateShowtimeRequest(BaseModel):
+    date_time: datetime
+
+
+class ShowtimeResponse(BaseModel):
+    id: int
+    play_id: int
+    date_time: datetime
+
+    class Config:
+        orm_mode = True
