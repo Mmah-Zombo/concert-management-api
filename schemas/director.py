@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from datetime import datetime
+from typing import List
 
 
 class DirectorRequestBody(BaseModel):
@@ -19,3 +20,19 @@ class DirectorResponse(BaseModel):
     class Config:
         orm_mode = True
 
+
+class DirectorIDs(BaseModel):
+    director_ids: List[int]
+
+
+class DirectorSummary(BaseModel):
+    id: int
+    name: str
+
+    class Config:
+        orm_mode = True
+
+
+class PlayDirectorAddResponse(BaseModel):
+    play_title: str
+    added_directors: List[DirectorSummary]

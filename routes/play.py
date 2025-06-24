@@ -3,6 +3,8 @@ from sqlalchemy.orm import Session
 from database import get_db
 from schemas.play import PlayCreate, PlayOut, PlayActorAddResponse, ActorSummary
 from schemas.actor import ActorIDs
+from schemas.director import DirectorIDs, DirectorSummary, PlayDirectorAddResponse
+from models.director import Director
 from crud import play as play_crud
 from dependencies.auth import get_current_user
 from models.user import User
@@ -81,4 +83,48 @@ def get_actors_of_play(
     return [
         ActorSummary(id=actor.id, name=actor.name)
         for actor in play.actors
+    ]
+
+
+@router.post("/{play_id}/directors", response_model=PlayDirectorAddResponse)
+def add_directors_to_play(
+    play_id: int,
+    director_ids: DirectorIDs,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    play = play_crud.get_by_id(db, play_id)
+    if not play:
+        raise HTTPException(status_code=404, detail="Play not found")
+
+    directors = play_crud.get_directors(db, director_ids.director_ids)
+    if not directors:
+        raise HTTPException(status_code=404, detail="No valid directors found")
+
+    added_directors = play_crud.add_directors(db, play, directors)
+    if not added_directors:
+        raise HTTPException(status_code=500, detail="Unable to add directors to play")
+
+    return PlayDirectorAddResponse(
+        play_title=play.title,
+        added_directors=[
+            DirectorSummary(id=director.id, name=director.name)
+            for director in added_directors
+        ]
+    )
+
+
+@router.get("/{play_id}/directors", response_model=List[DirectorSummary])
+def get_directors_of_play(
+    play_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    play = play_crud.get_by_id(db, play_id)
+    if not play:
+        raise HTTPException(status_code=404, detail="Play not found")
+
+    return [
+        DirectorSummary(id=director.id, name=director.name)
+        for director in play.directors
     ]

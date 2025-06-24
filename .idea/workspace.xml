@@ -7,9 +7,9 @@
     <list default="true" id="c7968422-2661-4cdb-af1e-d1588553dd04" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/crud/play.py" beforeDir="false" afterPath="$PROJECT_DIR$/crud/play.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/filter_showtimes.py" beforeDir="false" afterPath="$PROJECT_DIR$/routes/filter_showtimes.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/play.py" beforeDir="false" afterPath="$PROJECT_DIR$/routes/play.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/schemas/actor.py" beforeDir="false" afterPath="$PROJECT_DIR$/schemas/actor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/schemas/play.py" beforeDir="false" afterPath="$PROJECT_DIR$/schemas/play.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/schemas/director.py" beforeDir="false" afterPath="$PROJECT_DIR$/schemas/director.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

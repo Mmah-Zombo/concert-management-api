@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 from models.play import Play
 from models.actor import Actor
+from models.director import Director
 from schemas.play import PlayCreate, PlayOut
 from schemas.actor import ActorIDs
 from datetime import datetime
@@ -57,3 +58,16 @@ def add_actors(db: Session, play: PlayOut, actors: List[Actor]):
     db.refresh(play)
 
     return new_actors
+
+
+def get_directors(db: Session, ids: List[int]):
+    return db.query(Director).filter(Director.id.in_(ids)).all()
+
+
+def add_directors(db: Session, play: Play, directors: List[Director]):
+    existing_ids = {d.id for d in play.directors}
+    new_directors = [d for d in directors if d.id not in existing_ids]
+    play.directors.extend(new_directors)
+    db.commit()
+    db.refresh(play)
+    return new_directors
