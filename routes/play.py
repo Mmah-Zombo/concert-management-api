@@ -72,11 +72,7 @@ def add_actors_to_play(play_id: int, actor_ids: ActorIDs, db: Session = Depends(
 
 
 @router.get("/{play_id}/actors", response_model=List[ActorSummary])
-def get_actors_of_play(
-    play_id: int,
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
-):
+def get_actors_of_play(play_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     play = play_crud.get_by_id(db, play_id)
     if not play:
         raise HTTPException(status_code=404, detail="Play not found")
@@ -108,12 +104,7 @@ def remove_actor_from_play(play_id: int, actor_id: int, db: Session = Depends(ge
 
 
 @router.post("/{play_id}/directors", response_model=PlayDirectorAddResponse)
-def add_directors_to_play(
-    play_id: int,
-    director_ids: DirectorIDs,
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
-):
+def add_directors_to_play(play_id: int, director_ids: DirectorIDs, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     play = play_crud.get_by_id(db, play_id)
     if not play:
         raise HTTPException(status_code=404, detail="Play not found")
@@ -136,11 +127,7 @@ def add_directors_to_play(
 
 
 @router.get("/{play_id}/directors", response_model=List[DirectorSummary])
-def get_directors_of_play(
-    play_id: int,
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
-):
+def get_directors_of_play(play_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     play = play_crud.get_by_id(db, play_id)
     if not play:
         raise HTTPException(status_code=404, detail="Play not found")
