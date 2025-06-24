@@ -60,6 +60,15 @@ def add_actors(db: Session, play: PlayOut, actors: List[Actor]):
     return new_actors
 
 
+def remove_actors(db: Session, play: Play, actor_ids: List[int]):
+    actors_to_remove = db.query(Actor).filter(Actor.id.in_(actor_ids)).all()
+    for actor in actors_to_remove:
+        if actor in play.actors:
+            play.actors.remove(actor)
+    db.commit()
+    return actors_to_remove
+
+
 def get_directors(db: Session, ids: List[int]):
     return db.query(Director).filter(Director.id.in_(ids)).all()
 
@@ -71,3 +80,12 @@ def add_directors(db: Session, play: Play, directors: List[Director]):
     db.commit()
     db.refresh(play)
     return new_directors
+
+
+def remove_directors(db: Session, play: Play, director_ids: List[int]):
+    directors_to_remove = db.query(Director).filter(Director.id.in_(director_ids)).all()
+    for director in directors_to_remove:
+        if director in play.directors:
+            play.directors.remove(director)
+    db.commit()
+    return directors_to_remove

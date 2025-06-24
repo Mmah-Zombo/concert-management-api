@@ -38,3 +38,8 @@ class ActorSummary(BaseModel):
 class PlayActorAddResponse(BaseModel):
     play_title: str
     added_actors: List[ActorSummary]
+
+
+class PlayActorRemoveResponse(BaseModel):
+    play_title: str
+    removed_actors: List[ActorSummary]

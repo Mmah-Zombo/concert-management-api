@@ -36,3 +36,8 @@ class DirectorSummary(BaseModel):
 class PlayDirectorAddResponse(BaseModel):
     play_title: str
     added_directors: List[DirectorSummary]
+
+
+class PlayDirectorRemoveResponse(BaseModel):
+    play_title: str
+    removed_directors: List[DirectorSummary]

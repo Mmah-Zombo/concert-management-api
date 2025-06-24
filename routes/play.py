@@ -1,11 +1,12 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from database import get_db
-from schemas.play import PlayCreate, PlayOut, PlayActorAddResponse, ActorSummary
+from schemas.play import PlayCreate, PlayOut, PlayActorAddResponse, ActorSummary, PlayActorRemoveResponse
 from schemas.actor import ActorIDs
-from schemas.director import DirectorIDs, DirectorSummary, PlayDirectorAddResponse
-from models.director import Director
+from schemas.director import DirectorIDs, DirectorSummary, PlayDirectorAddResponse, PlayDirectorRemoveResponse
 from crud import play as play_crud
+from crud import director as director_crud
+from crud import actor as actor_crud
 from dependencies.auth import get_current_user
 from models.user import User
 from typing import List
@@ -86,6 +87,26 @@ def get_actors_of_play(
     ]
 
 
+@router.delete("/{play_id}/actors/{actor_id}")
+def remove_actor_from_play(play_id: int, actor_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    play = play_crud.get_by_id(db, play_id)
+    if not play:
+        raise HTTPException(status_code=404, detail="Play not found")
+
+    actor = actor_crud.get_by_id(actor_id, db)
+
+    if not actor:
+        raise HTTPException(status_code=404, detail="Actor not found")
+
+    if actor not in play.actors:
+        raise HTTPException(status_code=400, detail="Actor is not assigned to this play")
+
+    play.actors.remove(actor)
+    db.commit()
+
+    return {"message": f"Actor with id: {actor_id} deleted from {play.title}"}
+
+
 @router.post("/{play_id}/directors", response_model=PlayDirectorAddResponse)
 def add_directors_to_play(
     play_id: int,
@@ -128,3 +149,22 @@ def get_directors_of_play(
         DirectorSummary(id=director.id, name=director.name)
         for director in play.directors
     ]
+
+
+@router.delete("/{play_id}/directors/{director_id}")
+def remove_director_from_play(play_id: int, director_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    play = play_crud.get_by_id(db, play_id)
+    if not play:
+        raise HTTPException(status_code=404, detail="Play not found")
+
+    director = director_crud.get_by_id(director_id, db)
+    if not director:
+        raise HTTPException(status_code=404, detail="Director not found")
+
+    if director not in play.directors:
+        raise HTTPException(status_code=400, detail="Director is not assigned to this play")
+
+    play.directors.remove(director)
+    db.commit()
+
+    return {"message": f"Director with id: {director_id} deleted from {play.title}"}
