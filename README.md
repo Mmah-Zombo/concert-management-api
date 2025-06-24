@@ -4,27 +4,42 @@ A RESTful API built using **FastAPI**, **PostgreSQL**, and **SQLAlchemy** with *
 
 ## 📦 Features
 
-- JWT Authentication (Login & Register)
-- CRUD operations for:
+
+- **User Authentication**  
+  - Register & login users with secure JWT tokens  
+
+- **CRUD Operations**  
   - Plays
   - Actors
   - Directors
+  - Showtimes
   - Tickets
   - Customers
-  - Showtimes
-- PostgreSQL for data persistence
-- Modular and scalable structure
+
+- **Tech Stack**  
+  - FastAPI
+  - SQLAlchemy ORM
+  - PostgreSQL
+  - Python 3.x
+  - Pydantic schemas
+  - JWT password flows
+
+- **Scalable structure**  
+  - Modular design: `models/`, `schemas/`, `routes/`, `utils/`, and `crud/`
+
+- **Interactive docs**  
+  - Auto-generated via Swagger UI at `/docs`
 
 ## 🚀 Getting Started
 
-### 1. Clone the repository
+### 1. Clone the repo
 
 ```bash
 git clone https://github.com/Mmah-Zombo/concert-management-api.git
 cd concert-management-api
 ```
 
-### 2. Create and activate virtual environment
+### 2. Set up a virtual environment
 
 ```commandline
 python -m venv venv
@@ -65,25 +80,33 @@ Access the interactive docs at: http://127.0.0.1:8000/docs
 ```commandline
 concert-management-api/
 │
-├── models/             # SQLAlchemy ORM models
-├── routes/             # API route definitions
-├── schemas/            # Pydantic models
-├── auth/               # JWT utilities & user authentication
-├── database.py         # DB engine & session management
-├── main.py             # FastAPI app entry point
-├── requirements.txt    # Python dependencies
+├── models/         # SQLAlchemy ORM models
+├── schemas/        # Pydantic request/response schemas
+├── crud/           # DB operations (create, read, update, delete)
+├── routes/         # FastAPI routes grouped per entity
+├── utils/          # Helper functions (e.g., JWT, auth)
+├── database.py     # DB engine & session setup
+├── config.py       # Configuration loader (env variables)
+├── main.py         # FastAPI app & route links
+├── requirements.txt
+├── .env.example    # Example environment file
+└── README.md
 ```
 
 ## 🔐 Authentication
 
-This API uses `JWT` for authentication. Users must login to obtain an access token and include it in the Authorization header for protected routes:
+Authentication
+- Register ➝ POST /auth/register: email, password → user
+- Login ➝ POST /auth/login: email, password → access_token
+-  the token in protected routes:
 
 `Authorization: Bearer <your_token>`
 
-## 👩‍💻 Author
+## 👩‍💻 Authors
 
-M’mah Zombo
-GitHub: @Mmah-Zombo
+- M’mah Zombo. GitHub: @Mmah-Zombo
+- Josephine Anne-marie. GitHub: Magona @josephine-annmarie-magona
+
 
 ## 📄 License
 
